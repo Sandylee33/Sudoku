@@ -12,43 +12,80 @@ public class SudokuGame{
 
 public class Grid
 {
-    private Row[] rows;
-    private Colum[] colums;
-    private Square[] squares;
+    
     private Unit[,] wholeGrid;
 
     public Grid(int dimension)
     {
         int result = dimension*dimension;
-
-        rows = new Row[result];
-
-
-        colums = new Colum[result];
-       
-
-        squares = new Square[result];
-       
-        for (int i =0;i < result;i++)
-        {
-            rows[i] = new Row(dimension);
-            colums[i] = new Colum(dimension);
-            squares[i] = new Square(dimension);
-        }
-
         wholeGrid = new Unit[result,result];
     }
 
-    public void InitGrid()
+    public void SetGridValue(int rowNum,int columNum, int num)
     {
-        for (int i = 0; i < SudokuGame.dimension; i++)
+        wholeGrid[rowNum,columNum].SetUnit(num);
+    }
+
+    public void Check()
+    {
+        
+    }
+
+    public bool CheckRow()
+    {   
+        bool b = true;
+        int result = SudokuGame.dimension*SudokuGame.dimension;
+        for (int i = 0;i < result;i++)
         {
-            Unit[] units = rows[i].GetNumbers();
-            for (int j = 0; j< SudokuGame.dimension; j++)
+            Row row = new Row(SudokuGame.dimension);
+            Unit[] units = new Unit[result];
+            for (int j = 0;j < result; j++)
             {
                 units[j] = wholeGrid[i,j];
             }
+            row.SetNumbers(units);
+            b = b && row.IsValid();
         }
+
+        return b;
+    }
+    public bool CheckColum()
+    {
+        bool b = true;
+        int result = SudokuGame.dimension*SudokuGame.dimension;
+        for (int i = 0;i < result;i++)
+        {
+            Colum colum = new Colum(SudokuGame.dimension);
+            Unit[] units = new Unit[result];
+            for (int j = 0;j < result; j++)
+            {
+                units[j] = wholeGrid[j,i];
+            }
+            colum.SetNumbers(units);
+            b = b && colum.IsValid();
+        }
+
+        return b;
+    }
+
+
+    public bool CheckSquare()
+    {
+        bool b = true;
+        int result = SudokuGame.dimension*SudokuGame.dimension;
+       
+            Square square = new Square(SudokuGame.dimension);
+            Unit[] units = new Unit[result];
+        int i = 0,j = 0,k = 0;
+        while (i<result &&j<result&&k<result)
+        {
+          //  units[k]
+        }
+            //square.SetNumbers(units);
+            b = b && square.IsValid();
+
+
+        return b;
     }
 
 }
@@ -57,15 +94,22 @@ public class Group
 {
     Unit[] numbers;
 
-    public Unit[] GetNumbers()
-    {
-        return numbers;
-    }
 
     public Group(int dimension)
     {
         numbers = new Unit[dimension*dimension];
     }
+
+    public Unit[] GetNumbers()
+    {
+        return numbers;
+    }
+
+    public void SetNumbers(Unit[] units)
+    {
+        numbers = units;
+    }
+
 
     public bool IsValid()
     {
