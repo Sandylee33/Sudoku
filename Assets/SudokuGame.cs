@@ -26,9 +26,9 @@ public class Grid
         wholeGrid[rowNum,columNum].SetUnit(num);
     }
 
-    public void Check()
+	public bool Check()
     {
-        
+		return CheckRow () && CheckColum() && CheckSquare ();
     }
 
     public bool CheckRow()
@@ -74,17 +74,24 @@ public class Grid
         bool b = true;
         int result = SudokuGame.dimension*SudokuGame.dimension;
        
-            Square square = new Square(SudokuGame.dimension);
-            Unit[] units = new Unit[result];
-        int i = 0,j = 0,k = 0;
-        while (i<result &&j<result&&k<result)
-        {
-          //  units[k]
-        }
-            //square.SetNumbers(units);
-            b = b && square.IsValid();
-
-
+        Square square = new Square(SudokuGame.dimension);
+        Unit[] units = new Unit[result];
+       
+		for (int i = 0; i < result; i = i + SudokuGame.dimension) 
+		{
+			for (int j = 0; j < result; j = j + SudokuGame.dimension) 
+			{
+				for (int p = i; p < SudokuGame.dimension; p++) 
+				{
+					for (int q = j; q < SudokuGame.dimension; q++) 
+					{
+						units [p%SudokuGame.dimension + q%SudokuGame.dimension * SudokuGame.dimension] = wholeGrid[p, q];
+						square.SetNumbers (units);
+						b = b && square.IsValid ();
+					}
+				}
+			}
+		}
         return b;
     }
 
