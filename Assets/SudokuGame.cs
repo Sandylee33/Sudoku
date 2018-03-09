@@ -14,11 +14,12 @@ public class Grid
 {
     
     private Unit[,] wholeGrid;
-
+    private int dimension;
     public Grid(int dimension)
     {
         int result = dimension*dimension;
         wholeGrid = new Unit[result,result];
+        this.dimension = dimension;
     }
 
     public void SetGridValue(int rowNum,int columNum, int num)
@@ -34,10 +35,10 @@ public class Grid
     public bool CheckRow()
     {   
         bool b = true;
-        int result = SudokuGame.dimension*SudokuGame.dimension;
+        int result = dimension*dimension;
         for (int i = 0;i < result;i++)
         {
-            Row row = new Row(SudokuGame.dimension);
+            Row row = new Row(dimension);
             Unit[] units = new Unit[result];
             for (int j = 0;j < result; j++)
             {
@@ -52,10 +53,10 @@ public class Grid
     public bool CheckColum()
     {
         bool b = true;
-        int result = SudokuGame.dimension*SudokuGame.dimension;
+        int result = dimension*dimension;
         for (int i = 0;i < result;i++)
         {
-            Colum colum = new Colum(SudokuGame.dimension);
+            Colum colum = new Colum(dimension);
             Unit[] units = new Unit[result];
             for (int j = 0;j < result; j++)
             {
@@ -72,20 +73,20 @@ public class Grid
     public bool CheckSquare()
     {
         bool b = true;
-        int result = SudokuGame.dimension*SudokuGame.dimension;
+        int result = dimension*dimension;
        
-        Square square = new Square(SudokuGame.dimension);
+        Square square = new Square(dimension);
         Unit[] units = new Unit[result];
        
-		for (int i = 0; i < result; i = i + SudokuGame.dimension) 
+		for (int i = 0; i < result; i = i + dimension) 
 		{
-			for (int j = 0; j < result; j = j + SudokuGame.dimension) 
+			for (int j = 0; j < result; j = j + dimension) 
 			{
-				for (int p = i; p < SudokuGame.dimension; p++) 
+				for (int p = i; p < i + dimension; p++) 
 				{
-					for (int q = j; q < SudokuGame.dimension; q++) 
+					for (int q = j; q < j + dimension; q++) 
 					{
-						units [p%SudokuGame.dimension + q%SudokuGame.dimension * SudokuGame.dimension] = wholeGrid[p, q];
+						units [p%dimension + q%dimension * dimension] = wholeGrid[p, q];
 						square.SetNumbers (units);
 						b = b && square.IsValid ();
 					}
